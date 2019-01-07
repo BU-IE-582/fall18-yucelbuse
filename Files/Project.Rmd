@@ -1,0 +1,98 @@
+---
+title: "Project Report"
+author: "Buse Yücel, Merve Ünal, Fatma Zehra Çetin"
+date: "7 Ocak 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+**1-INTRODUCTION**
+
+**1.1 REASON OF USING DATA MINING FOR THIS TOPIC**
+
+Statistical methods are being widely used in determining sporting events outcomes. Prediction of such sporting events are so important that a lot of people are investing on it. Still it was not developed a certain approach to solve this problem. Traditional Statistic including hypotheses tests can be one of the solutions. However, traditional techniques are infeasible for raw data. Also, due to the fact that the problem contains a very large dynamic data set including considerable amount of features we use data mining rather than traditional techniques of statistics. With the help of data mining, data can be classified and segmented.
+
+**1.2	THE DATASET**
+
+In this project, we have given two datasets which have information about the matches and the related odds in English Premier League. In “Matches” dataset, there are 3259 matches. The dataset consists of League and Match IDs, Home and Away teams, scores, dates and match types for each of these matches. The match type for all of the matches in the data set is soccer. On the other hand, “Odd Details” dataset has information about the odd and bet types used, bookmakers who made the bets, the odd values and total handicap values for “Over/Under” bet type for each match in the “Matches” dataset. As one of the steps of preprocessing, we have merged these two datasets with regard to Match ID information. This combined dataset helped us further our work of making predictions. The datasets are updated according to the matches taken place in English Premier League every day. With these updated datasets, we had the relevant information about the matches played in each round that we were required to make predictions for. 
+
+**1.3	PROBLEM STATEMENT**
+
+The scope of this project is to predict match results with given two datasets named “Matches” and “Odd Details” described above. To clarify, the aim is providing better forecasts than the bookmakers with the help of Data Mining algorithms we learned during the course. We are interested in “1x2” bet type. 1X2 betting is a popular bet type and involves betting on the result in a match with three possible outcomes, which are Home Win, Away Win, and Draw. Basically, the three outcomes of a match between two teams are represented by either 1, 2, or X. This means 1 is for a home win, 2 for an away win, and X for the draw. In order to achieve this goal, we are required to select statistically significant features that helps us make “good” predictions. The “goodness” or in other words success of the predictions made is determined with their corresponding RPS levels. This feature selection process is the key to the development of our project. The more relevant feature sets are expected to be introduced by developing our prediction approach round by round. Hence, improvement of our prediction approach supposed to yield better RPS levels. It can be inferred that results of “1x2” bet type have ordinal nature. Because, if home team is ahead, the score should be tie before away team becomes ahead and vice versa. Even though classification approaches can be benefited from, the problem is an ordinal regression problem. The selection of a feature set that involves features having significant impact on output value of ordinal regression is the target of our bet forecast problem.
+
+**1.4	SUMMARY OF PROPOSED APPROACH**
+
+A number of approaches are implemented for this project. The details can be seen in the third section. Our resulting approach is proposed briefly in this section as a summary. In order to select the features having significant impacts on our prediction output, we had brainstorming sessions as a group. During these sessions, we discussed several attributes that may affect our output, combine them in several ways and analyze the results. 
+
+When we look at the success fluctuations of the teams according to time of the matches they play throughout a day, we observe that this data impacts the output and yields better predictions. In order to obtain this data, we filtered the matches by hours and calculate  home, tie and away success ratios of the teams for each hour of each day. We thought that the changes between first and last odds are something important that should be considered. To obtain this average, we took the first and the last odd values of every odd type of every bookmaker and took their mean. Afterwards, we created a feature set including success ratios by hours and means of every odd type of every bookmaker and run the code. After analyzing the predictions, we decided that the approach that gives us this feature set is the most appropriate approach to be proposed in our point of view.
+
+
+**2-LITERATURE REVIEW**
+
+In the literature, there are a lot of studies that focused on the feature selection for solving this problem. Carpita et al [1] applied a data mining approach to examine a dataset, which is containing the information about the matches played in the Italian Football League, with aim of identifying the key factors that cause the outcome of the football match (win, lose or draw). In another study, Paola Zuccolotto et al.[2]  focus on two basis: selection of important variables using the Gini variable importance measure computed by Random Forests and corrected with the novel approach proposed by Sandri and Zuccolotto[3][4]; and the use of the selected variables to construct composite indicators to be interpreted as drivers of match outcome by Principal Component Analysis. Finally, they check the extent to which the obtained drivers influence the match outcome, using a Multinomial Logistic Regression model, which had revealed effective in the former study.
+
+According to the article named "Ordinal versus nominal regression models and the problem of correctly predicting draws in soccer" done by Hvattum, L. M [5] and published on International Journal of Computer Science in Sport in 2017, ordinal regression is used to predict some ratios. In addition to using ordinal regression, this article demonstrates some disadvantages of using ordinal regression. According to this article, one of its disadvantages is the same influence of an independent variable on the log odds.
+According to the article called "Predicting  football  scores using  machine  learning  technique" done by J.  Hucaljuk  and A.  Rakipovic [6], and published on Proceedings  of  the  34th  International  Convention in 2011, a number of approaches are used such as KNN, Random Forest etc. Besides, the most important thing is to select particular features that we really need. In that sense, this article works on the selection of features, which are the current position in the rankings, the number of injured players from the first team, the average number of scored and received goals per game.
+
+**3-APPROACH**
+
+In this section, we explained several approaches that we discussed and implemented to our regression by introducing new feature sets.
+
+Firstly, we performed Principle Component Analysis for feature selection and dimensionality reduction. By means of PCA, our purpose was to determine the most important features of our initial feature set. However, at the end of all rounds we understood that the feature set that we obtain after Principle Component Analysis did not have the most significant impact on the output. Therefore, even if we used it as an improvement in one of our rounds, we decided that this is not the best approach to be proposed.
+
+Secondly, we thought that the changes between first and last odds are something important that should be considered. To analyze these changes, we calculated weighted averages of first and last odds of each odd types that bookmakers made in one of the rounds. We know that last odds are closer to match results because bookmakers attain more and more relevant information about a match they forecast day by day. For this reason, we gave greater weight to the last odds. Later on, we took mean of the first and last odds of each bookmaker and add them as attributes in the feature set. When we run the code and obtained predictions, we understood that the feature set did not help us obtain the best result comparing to all the approaches that we had tried during the project.
+
+In order to get successful predictions, we wanted to add teams’ successes ratio in each year as a feature. We computed the home, tie and away success ratios for each team for each year but unfortunately, we had problems about adding them as a column. Because in feature dataset for a column for each row home teams are different, we had difficulty to the assign these probabilities. Because of the similar reason, we also thought the adding these features: last 5 matches’ success of each team, pairwise (home and away teams) match results for each team in the year and so on, but we had difficulty to the adding them in the same column for each home and away team.
+
+The other approach that we applied is Ordinal Forest. This can be used when you want to make a classification for ordinal response variable. In other words, if the response variable is small, medium, high, then we can do ordinal regression to predict the response variable. Therefore, according to this project, ordinal forest can be used by definition. In that sense, this project gives you some match outcomes. If you think the first round of the match result as 1-0 and the last round of the match result as 1-2,then first it should be 1-1(tie form) and then it should be resulted as 1-2 (away form). We used this ordinal Forest model to this project by using ordfor function and ordinalForest package in R. When we looked at the results, we saw that it didn't give the best prediction. Therefore, this is not our proposed approach that we decided. However, we used its results in the rounds.
+
+Finally, we tried to use the changes between first and last odds again with a different point of view. We decided that the approach of taking their weighted average in the previous rounds can be further improved to obtain better predictions. To achieve this aim, we take the mean of first and last odds of each odd type and each bookmaker without weighting them. Because the last odds are not always the most realistic odds because of the several uncontrolled reasons such as weather, a health problem of a player etc. Hence,  giving them greater weight does not yield to better predictions. After this deduction, we take the mean without weight and combine them with success ratios of the teams according to time of the matches they play throughout a day and created a feature set. This feature set helped us obtain the best predictions that we had obtained so far. Thus, this approach is our proposed approach as we explained in section 1.4 Summary Of Proposed Approach.
+
+If we had used our proposed approach in the previous rounds, we would have obtained better RPS levels.
+
+**4-RESULTS**
+
+At the end of the rounds we came up the model that you provide for us glmnet. Due to the fact that it does cross validation and sets parameters according to the cross validation results, we focus on the feature selection. According to the round RPS results, we decide to add home, away, and tie ratios based on match hour and average of the bookmakers’ initial and final odds. Due to the low RPS value we didn’t apply PCA to our last model.
+If we had had the proposed approach that we decided at first, then probably the mean RPS of first rounds would have been better.
+
+
+**5-CONCLUSIONS AND FUTURE WORK**
+
+For this project, we tried to make forecasts for match results in English Premier League with given datasets that have information about matches and odds of bookmakers. Using the code given beforehand by you, we focused on feature selection to improve our predictions round by round.
+
+Simple models are always preferable but the simplest model isn’t favorable. When we consider our approach, we can say that it is an easy and a fast model. It can be interpretable for people that know about statistics and data mining. However, for people that do not know about these fields have difficulty in understanding the model. For example, decision trees may be preferable to make the work understandable by everyone.
+
+After adding the appropriate features that help us make better predictions, different models can be applied with AdaBoost and similarly, different set of parameters can be tried and chosen with the lowest RPS value via cross-validation. Then, with the chosen parameters predictions can be done again to obtain better results.
+
+As a future work, feature selection is the most important one to develop the model. In addition to this, if we implement ensemble algorithms such as AdaBoost by using cross validation, probably the model will be better. Therefore, you can find below the feature selection criteria that can be applied in future work.
+
+One of the feature selection criteria can be that a historical data concerning the last 5 years' match prediction of bookmakers can be created and modeled.
+
+The other feature selection criteria can be to look the pairwise match results of particular teams for the last 10 years. For instance, the team pair such as Tottenham-Chelsea, can be taken into account and then determined how many matches Tottenham has won, how many matches Chelsea has won. According to the data set created, a new model can be implemented.
+
+**REFERENCES**
+
+[1] Carpita M., Sandri M., Simonetto A., Zuccolotto P. (2013). Football Mining with R. In: Data Mining Applications with R (Edited by Y. Zhao, Y. Cen), Chapter 14. Elsevier. 
+
+[2] Carpita M., Sandri M., Simonetto A., Zuccolotto P. (2015). Discovering the Drivers of Football Match. In:  Quality Technology and Quantitative Management 12(4):537-553.
+ 
+[3]Sandri  M., Zuccolotto  P.  (2008). A  Bias  Correction Algorithm  for  the Gini  Variable Importance  Measure in  Classification  Trees. Journal  of  Computational and  Graphical Statistics, 17(3), 611-628.
+
+[4]Sandri M., Zuccolotto P. (2010).  Analysis and correction  of bias in  Total Decrease in Node Impurity measures for tree-based algorithms. Statistics and Computing, 20, 393-407. 
+
+[5]Hvattum, L. M. ,Ordinal versus nominal regression models and the problem of correctly predicting draws in soccer,International Journal of Computer Science in Sport,Volume 16, Issue 1, 2017
+
+[6]J.  Hucaljuk  and A.  Rakipovic.  Predicting  football  scores using  machine  learning  techniques.  In  MIPRO,  2011 Proceedings  of  the  34th  International  Convention,  pages 1623 –1627, may 2011.  
+
+
+
+**CODES**
+
+
+
+[Here, you can see the codes of our project](https://github.com/BU-IE-582/fall18-yucelbuse/blob/master/Files/Codes.R)
+
+
